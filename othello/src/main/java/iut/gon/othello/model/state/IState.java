@@ -7,10 +7,10 @@ import java.util.Map;
 import java.util.Set;
 import iut.gon.hexagonalcoordinates.Coordinate;
 import iut.gon.hexagonalcoordinates.Point;
-import iut.gon.othello.model.Team;
+import iut.gon.othello.model.*;
 import iut.gon.othello.model.actions.Move;
 import iut.gon.othello.model.actions.RemoveLine;
-import iut.gon.othello.model.tokens.*;
+import iut.gon.othello.model.tokens.Token;
 
 public interface IState {
 	
