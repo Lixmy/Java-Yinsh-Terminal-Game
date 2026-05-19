@@ -1,9 +1,11 @@
 package iut.gon.othello.model.state;
 
 import java.util.List;
+import iut.gon.hexagonalcoordinates.*;
 import java.util.Map;
 import java.util.Set;
 
+import iut.gon.hexagonalcoordinates.Coordinate;
 import iut.gon.othello.model.*;
 
 public interface IState {

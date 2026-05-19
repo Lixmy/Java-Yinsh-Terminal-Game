@@ -1,23 +1,19 @@
 package iut.gon.othello.model.state;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
+import iut.gon.hexagonalcoordinates.Coordinate;
 import iut.gon.othello.model.Team;
 
-public class State implements IState {
-
-	private Map<Coordinate, Token> board;
-	private Team turn;
-	private List<Set<Coordinate>> lines;
+public record State (Map<Coordinate, Token> board, Team turn, List<Set<Coordinate>> lines) implements IState {
 	
-	
-	
-	public State(Map<Coordinate, Token> board, Team turn, List<Set<Coordinate>> lines) {
-		this.board = board;
-		this.turn = turn;
-		this.lines = lines;
+	public IState move(Move move) {
+		Map<Coordinate, Token> newBoard = new HashMap<>(board);
+        return new State(newBoard, turn, lines);
 	}
 
 	public boolean isInField(Coordinate c) {
@@ -25,14 +21,20 @@ public class State implements IState {
 	}
 	
 	public Team winner() {
+		return turn;
 		
 	}
 	
-	public boolean equals(Object o) {
-		if(!(o instanceof State s) {
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		else return this.turn = turn, this.lines = lines, this.board = board;
+		if (getClass() != obj.getClass())
+			return false;
+		State other = (State) obj;
+		return Objects.equals(board, other.board) && Objects.equals(lines, other.lines) && turn == other.turn;
 	}
 
 }
