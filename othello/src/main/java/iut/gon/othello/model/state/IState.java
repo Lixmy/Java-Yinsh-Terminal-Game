@@ -1,5 +1,5 @@
 package iut.gon.othello.model.state;
-
+/*
 import java.util.List;
 import iut.gon.hexagonalcoordinates.*;
 import java.util.Map;
@@ -28,3 +28,4 @@ public interface IState {
 	List<Set<Coordinate>> getPawnsLines(Map<Coordinate, Token> board);
 	
 }
+*/

@@ -1,5 +1,5 @@
 package iut.gon.othello.model.state;
-
+/*
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,3 +39,4 @@ public record State (Map<Coordinate, Token> board, Team turn, List<Set<Coordinat
 	}
 
 }
+*/
