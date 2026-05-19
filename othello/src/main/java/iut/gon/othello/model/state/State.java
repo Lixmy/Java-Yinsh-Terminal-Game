@@ -8,6 +8,7 @@ import java.util.Set;
 
 import iut.gon.hexagonalcoordinates.Coordinate;
 import iut.gon.othello.model.Team;
+import iut.gon.othello.model.tokens.*;
 
 public record State (Map<Coordinate, Token> board, Team turn, List<Set<Coordinate>> lines) implements IState {
 	

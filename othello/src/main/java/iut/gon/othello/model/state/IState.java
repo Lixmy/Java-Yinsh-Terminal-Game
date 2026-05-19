@@ -7,6 +7,7 @@ import java.util.Set;
 
 import iut.gon.hexagonalcoordinates.Coordinate;
 import iut.gon.othello.model.*;
+import iut.gon.othello.model.tokens.*;
 
 public interface IState {
 	
