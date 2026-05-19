@@ -110,4 +110,4 @@ public abstract class Coordinate {
         return toDir(mode, Direction.SE);
     }
 }
-}
+
