@@ -17,5 +17,9 @@ public class Pawn extends Token {
 	public Token clone() {
 		return new Pawn(this.getTeam());
 	}
+	
+	public void changeTeam() {
+		this.setTeam(this.getTeam().other());
+	}
 
 }
