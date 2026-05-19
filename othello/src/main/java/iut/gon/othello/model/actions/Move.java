@@ -1,5 +1,7 @@
 package iut.gon.othello.model.actions;
 
+import java.util.Objects;
+
 import iut.gon.hexagonalcoordinates.Coordinate;
 
 public class Move extends Action {
@@ -23,5 +25,22 @@ public class Move extends Action {
 	}
 	public Coordinate getTo() {
 		return this.to;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Move other = (Move) obj;
+		return Objects.equals(from, other.from) && Objects.equals(to, other.to);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(from, to);
 	}
 }

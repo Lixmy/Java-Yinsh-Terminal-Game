@@ -20,7 +20,7 @@ import java.util.*;
  */
 
 /*
- * 
+
 class StateTest {
  
     private IState emptyState;

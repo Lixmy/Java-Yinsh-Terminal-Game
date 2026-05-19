@@ -15,8 +15,6 @@ import java.util.Set;
  * Chemin : src/test/java/model/ActionTest.java
  */
 
-/*
-
 class ActionTest {
  
     // -------------------------------------------------------------------------
@@ -94,5 +92,3 @@ class ActionTest {
         assertNotEquals(move.getClass(), rl.getClass());
     }
 }
-
-*/
