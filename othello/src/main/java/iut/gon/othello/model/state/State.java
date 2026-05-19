@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import iut.gon.othello.model.Team;
+
 public class State implements IState {
 
 	private Map<Coordinate, Token> board;
