@@ -1,5 +1,8 @@
 package iut.gon.hexagonalcoordinates;
 
-public class Point {
-
+public record Point(int x, int y) {
+    @Override
+    public String toString() {
+        return "[" + x + "," + y + "]";
+    }
 }
