@@ -80,10 +80,23 @@ public class CoordinateCubeTest {
     @Test
     void testTo2DCoordinate() {
         CoordinateCube c = new CoordinateCube(0, 0, 0);
+        CoordinateCube c1 = new CoordinateCube(1, -2, 1);
+        CoordinateCube c2 = new CoordinateCube(1, 0, -1);
 
         Point p = c.to2DCoordinate();
 
-        assertEquals(0, p.x());
-        assertEquals(0, p.y());
+        assertEquals(5, p.x());
+        assertEquals(9, p.y());
+        
+        Point p1 = c1.to2DCoordinate();
+
+        assertEquals(3, p1.x());
+        assertEquals(9, p1.y());
+        
+        Point p2 = c2.to2DCoordinate();
+
+        assertEquals(5, p2.x());
+        assertEquals(11, p2.y());
+        
     }
 }

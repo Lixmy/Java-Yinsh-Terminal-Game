@@ -31,8 +31,8 @@ public class CoordinateCube extends Coordinate {
 
     @Override
     public Point to2DCoordinate() {
-        int x = 2 * q + r;
-        int y = r;
+        int x = 5+r;
+        int y = 9+q-s;
         return new Point(x, y);
     }
 
