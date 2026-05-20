@@ -28,8 +28,8 @@ public class FactoryCube implements IFactory {
         
         board.put(new CoordinateCube(3, 0, -3), new Ring(Team.WHITE));
         board.put(new CoordinateCube(4, 0, -4), new Ring(Team.WHITE));
-        board.put(new CoordinateCube(3, -2, 1), new Ring(Team.WHITE));
-        board.put(new CoordinateCube(4, -2, 2), new Ring(Team.WHITE));
+        board.put(new CoordinateCube(3, -2, -1), new Ring(Team.WHITE));
+        board.put(new CoordinateCube(4, -2, -2), new Ring(Team.WHITE));
 
         board.put(new CoordinateCube(0, -2, 2), new Pawn(Team.BLACK));
         board.put(new CoordinateCube(2, -2, 0), new Pawn(Team.BLACK));
@@ -39,7 +39,7 @@ public class FactoryCube implements IFactory {
         board.put(new CoordinateCube(-5, 4, 1), new Pawn(Team.BLACK));
         
         board.put(new CoordinateCube(1, -2, 1), new Pawn(Team.WHITE));
-        board.put(new CoordinateCube(5, -4, 1), new Pawn(Team.WHITE));
+        board.put(new CoordinateCube(5, -4, -1), new Pawn(Team.WHITE));
         board.put(new CoordinateCube(-3, 3, 0), new Pawn(Team.WHITE));
         board.put(new CoordinateCube(-2, 5, -3), new Pawn(Team.WHITE));
         
