@@ -14,133 +14,195 @@ import iut.gon.othello.model.state.IState;
 import iut.gon.othello.model.tokens.Ring;
 import iut.gon.othello.model.tokens.Token;
 
+/**
+ * Implémentation d'une intelligence artificielle basée sur l'algorithme Minimax
+ * optimisé avec l'élagage Alpha-Beta. Cette IA explore l'arbre des coups
+ * possibles jusqu'à une profondeur maximale définie pour déterminer la
+ * meilleure action à jouer, en s'appuyant sur une fonction d'évaluation.
+ */
 public class MinimaxAI implements AI {
 
-    
-    private final int maxDepth;
-    private final Evaluator evaluator;
+	private final int maxDepth;
+	private final Evaluator evaluator;
 
-    public MinimaxAI(Team aiTeam, int maxDepth) {
-        
-        this.maxDepth = maxDepth;
-        this.evaluator = new Evaluator(aiTeam);
-    }
+	/**
+	 * Construit une nouvelle instance de l'IA Minimax.
+	 *
+	 * @param aiTeam   L'équipe contrôlée par cette IA.
+	 * @param maxDepth La profondeur maximale de l'arbre de recherche exploré par
+	 *                 l'algorithme.
+	 */
+	public MinimaxAI(Team aiTeam, int maxDepth) {
 
-    @Override
-    public Action chooseMove(IState state) {
-        List<Action> actions = getPossibleActions(state);
+		this.maxDepth = maxDepth;
+		this.evaluator = new Evaluator(aiTeam);
+	}
 
-        Action bestAction = null;
-        int bestScore = Integer.MIN_VALUE;
+	/**
+	 * Détermine la meilleure action à effectuer pour l'état de jeu actuel. Cette
+	 * méthode sert de point d'entrée à l'algorithme Minimax avec élagage
+	 * Alpha-Beta.
+	 *
+	 * @param state L'état actuel du jeu depuis lequel l'IA doit jouer.
+	 * @return L'{@link Action} optimale calculée par l'IA.
+	 */
+	@Override
+	public Action chooseMove(IState state) {
+		List<Action> actions = getPossibleActions(state);
 
-        int alpha = Integer.MIN_VALUE;
-        int beta = Integer.MAX_VALUE;
+		Action bestAction = null;
+		int bestScore = Integer.MIN_VALUE;
 
-        for (Action action : actions) {
-            IState nextState = applyAction(state, action);
+		int alpha = Integer.MIN_VALUE;
+		int beta = Integer.MAX_VALUE;
 
-            int score = minimax(nextState, maxDepth - 1, false, alpha, beta);
+		for (Action action : actions) {
+			IState nextState = applyAction(state, action);
 
-            if (score > bestScore) {
-                bestScore = score;
-                bestAction = action;
-            }
+			int score = minimax(nextState, maxDepth - 1, false, alpha, beta);
 
-            alpha = Math.max(alpha, bestScore);
-        }
+			if (score > bestScore) {
+				bestScore = score;
+				bestAction = action;
+			}
 
-        return bestAction;
-    }
+			alpha = Math.max(alpha, bestScore);
+		}
 
-    private int minimax(IState state, int depth, boolean maximizingPlayer, int alpha, int beta) {
-        if (depth == 0 || state.winner() != null) {
-            return evaluate(state);
-        }
+		return bestAction;
+	}
 
-        List<Action> actions = getPossibleActions(state);
+	/**
+	 * Algorithme récursif Minimax avec élagage Alpha-Beta. Il simule les coups en
+	 * alternant entre la maximisation du score de l'IA et la minimisation par
+	 * l'adversaire afin d'anticiper les réponses optimales de chacun.
+	 *
+	 * @param state            L'état du jeu à évaluer.
+	 * @param depth            La profondeur de recherche restante.
+	 * @param maximizingPlayer Indique si c'est au tour de l'IA de maximiser le
+	 *                         score (true) ou à l'adversaire de le minimiser
+	 *                         (false).
+	 * @param alpha            La meilleure valeur (la plus élevée) garantie pour le
+	 *                         maximiseur jusqu'à présent.
+	 * @param beta             La meilleure valeur (la plus basse) garantie pour le
+	 *                         minimiseur jusqu'à présent.
+	 * @return Le score heuristique calculé pour ce nœud de l'arbre de recherche.
+	 */
+	private int minimax(IState state, int depth, boolean maximizingPlayer, int alpha, int beta) {
+		if (depth == 0 || state.winner() != null) {
+			return evaluate(state);
+		}
 
-        if (actions.isEmpty()) {
-            return evaluate(state);
-        }
+		List<Action> actions = getPossibleActions(state);
 
-        if (maximizingPlayer) {
-            int bestScore = Integer.MIN_VALUE;
+		if (actions.isEmpty()) {
+			return evaluate(state);
+		}
 
-            for (Action action : actions) {
-                IState nextState = applyAction(state, action);
+		if (maximizingPlayer) {
+			int bestScore = Integer.MIN_VALUE;
 
-                int score = minimax(nextState, depth - 1, false, alpha, beta);
+			for (Action action : actions) {
+				IState nextState = applyAction(state, action);
 
-                bestScore = Math.max(bestScore, score);
-                alpha = Math.max(alpha, bestScore);
+				int score = minimax(nextState, depth - 1, false, alpha, beta);
 
-                if (beta <= alpha) {
-                    break;
-                }
-            }
+				bestScore = Math.max(bestScore, score);
+				alpha = Math.max(alpha, bestScore);
 
-            return bestScore;
-        }
+				if (beta <= alpha) {
+					break;
+				}
+			}
 
-        int bestScore = Integer.MAX_VALUE;
+			return bestScore;
+		}
 
-        for (Action action : actions) {
-            IState nextState = applyAction(state, action);
+		int bestScore = Integer.MAX_VALUE;
 
-            int score = minimax(nextState, depth - 1, true, alpha, beta);
+		for (Action action : actions) {
+			IState nextState = applyAction(state, action);
 
-            bestScore = Math.min(bestScore, score);
-            beta = Math.min(beta, bestScore);
+			int score = minimax(nextState, depth - 1, true, alpha, beta);
 
-            if (beta <= alpha) {
-                break;
-            }
-        }
+			bestScore = Math.min(bestScore, score);
+			beta = Math.min(beta, bestScore);
 
-        return bestScore;
-    }
+			if (beta <= alpha) {
+				break;
+			}
+		}
 
-    private int evaluate(IState state) {
-        return evaluator.evaluate(state);
-    }
+		return bestScore;
+	}
 
-    private List<Action> getPossibleActions(IState state) {
-        List<Action> actions = new ArrayList<>();
+	/**
+	 * Évalue l'état actuel du jeu en utilisant l'évaluateur de l'IA.
+	 *
+	 * @param state L'état à évaluer.
+	 * @return Le score heuristique de cet état.
+	 */
+	private int evaluate(IState state) {
+		return evaluator.evaluate(state);
+	}
 
-        if (state.lines() != null && !state.lines().isEmpty()) {
-            for (Set<Coordinate> line : state.lines()) {
-                for (Coordinate ringCoord : state.rings().get(state.turn())) {
-                    Token token = state.board().get(ringCoord);
+	/**
+	 * Génère la liste de toutes les actions légales possibles pour l'état de jeu
+	 * donné. Si des lignes sont formées et exigent d'être retirées, seules les
+	 * actions de type {@link RemoveLine} sont considérées. Sinon, les déplacements
+	 * normaux de type {@link Move} sont calculés.
+	 *
+	 * @param state L'état de jeu analysé.
+	 * @return Une liste contenant toutes les {@link Action} possibles pour le
+	 *         joueur dont c'est le tour.
+	 */
+	private List<Action> getPossibleActions(IState state) {
+		List<Action> actions = new ArrayList<>();
 
-                    if (token instanceof Ring) {
-                        actions.add(new RemoveLine(line, ringCoord));
-                    }
-                }
-            }
+		if (state.lines() != null && !state.lines().isEmpty()) {
+			for (Set<Coordinate> line : state.lines()) {
+				for (Coordinate ringCoord : state.rings().get(state.turn())) {
+					Token token = state.board().get(ringCoord);
 
-            return actions;
-        }
+					if (token instanceof Ring) {
+						actions.add(new RemoveLine(line, ringCoord));
+					}
+				}
+			}
 
-        for (Coordinate ringCoord : state.rings().get(state.turn())) {
-            Set<Coordinate> possibleMoves = state.availableMoves(ringCoord);
+			return actions;
+		}
 
-            for (Coordinate destination : possibleMoves) {
-                actions.add(new Move(ringCoord, destination));
-            }
-        }
+		for (Coordinate ringCoord : state.rings().get(state.turn())) {
+			Set<Coordinate> possibleMoves = state.availableMoves(ringCoord);
 
-        return actions;
-    }
+			for (Coordinate destination : possibleMoves) {
+				actions.add(new Move(ringCoord, destination));
+			}
+		}
 
-    private IState applyAction(IState state, Action action) {
-        if (action instanceof Move move) {
-            return state.move(move);
-        }
+		return actions;
+	}
 
-        if (action instanceof RemoveLine removeLine) {
-            return state.removeLine(removeLine);
-        }
+	/**
+	 * Simule l'application d'une action sur un état de jeu pour produire l'état
+	 * suivant.
+	 *
+	 * @param state  L'état de jeu de départ.
+	 * @param action L'action à appliquer (Move ou RemoveLine).
+	 * @return Le nouvel état de jeu {@link IState} généré après l'action.
+	 * @throws IllegalArgumentException Si l'action fournie n'est ni un Move ni un
+	 *                                  RemoveLine.
+	 */
+	private IState applyAction(IState state, Action action) {
+		if (action instanceof Move move) {
+			return state.move(move);
+		}
 
-        throw new IllegalArgumentException("Action inconnue");
-    }
+		if (action instanceof RemoveLine removeLine) {
+			return state.removeLine(removeLine);
+		}
+
+		throw new IllegalArgumentException("Action inconnue");
+	}
 }

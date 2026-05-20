@@ -1,5 +1,12 @@
 package iut.gon.hexagonalcoordinates;
 
+/**
+ * Énumération représentant les différentes directions de déplacement possibles 
+ * dans une grille hexagonale.
+ * Elle couvre l'ensemble des directions nécessaires pour la navigation, 
+ * que la grille soit orientée en mode POINTY (pointes en haut/bas) 
+ * ou en mode FLAT (bords plats en haut/bas).
+ */
 public enum Direction {
     NO,
     N,
@@ -10,6 +17,11 @@ public enum Direction {
     SO,
     O;
 
+    /**
+     * Calcule et retourne la direction diamétralement opposée à la direction courante.
+     *
+     * @return La {@link Direction} opposée.
+     */
     public Direction opposite() {
         return switch (this) {
             case NO -> SE;

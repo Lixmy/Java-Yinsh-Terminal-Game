@@ -12,24 +12,77 @@ import iut.gon.othello.model.actions.Move;
 import iut.gon.othello.model.actions.RemoveLine;
 import iut.gon.othello.model.tokens.Token;
 
+/**
+ * Interface définissant l'état immuable d'une partie de jeu.
+ */
 public interface IState {
 	
+	/**
+	 * Applique une action de déplacement sur le plateau.
+	 *
+	 * @param move L'action de déplacement à effectuer.
+	 * @return Un nouvel état représentant le jeu après le déplacement.
+	 */
 	IState move(Move move);
 	
+	/**
+	 * Applique une action de suppression de ligne.
+	 *
+	 * @param rm L'action de retrait de ligne à effectuer.
+	 * @return Un nouvel état représentant le jeu après la suppression.
+	 */
 	IState removeLine(RemoveLine rm);
 	
+	/**
+	 * Détermine l'ensemble des destinations valides pour un déplacement.
+	 *
+	 * @param from La coordonnée de départ.
+	 * @return Un ensemble contenant toutes les coordonnées d'arrivée légales.
+	 */
 	Set<Coordinate> availableMoves(Coordinate from);
 	
+	/**
+	 * Récupère la représentation actuelle du plateau de jeu.
+	 *
+	 * @return Une map associant chaque coordonnée à son jeton (ou null).
+	 */
 	Map<Coordinate, Token> board();
 	
+	/**
+	 * Récupère les positions des anneaux pour chaque équipe.
+	 *
+	 * @return Une map associant chaque équipe à la liste de ses anneaux.
+	 */
 	Map<Team, List<Coordinate>> rings();
 	
+	/**
+	 * Récupère la liste des lignes (alignements de pions) actuellement formées.
+	 *
+	 * @return Une liste d'ensembles de coordonnées, représentant les lignes.
+	 */
 	List<Set<Coordinate>> lines();
 	
+	/**
+	 * Indique de quelle équipe c'est le tour de jouer.
+	 *
+	 * @return L'équipe qui doit effectuer la prochaine action.
+	 */
 	Team turn();
 	
+	/**
+	 * Vérifie si la partie est terminée et retourne l'équipe gagnante.
+	 *
+	 * @return L'équipe victorieuse, ou null si la partie est en cours.
+	 */
 	Team winner();
 	
+	/**
+	 * Méthode utilitaire statique permettant de détecter les alignements 
+	 * de 5 pions de la même couleur sur un plateau donné.
+	 *
+	 * @param board L'état du plateau de jeu sous forme de map.
+	 * @return Une liste contenant les ensembles de coordonnées des lignes détectées.
+	 */
 	static List<Set<Coordinate>> getPawnsLines(Map<Coordinate, Token> board) {
         List<Set<Coordinate>> allLines = new java.util.ArrayList<>();
         
@@ -93,7 +146,21 @@ public interface IState {
         return allLines;
     }
 	
+	/**
+	 * Supprime le jeton présent à la coordonnée spécifiée.
+	 *
+	 * @param c La coordonnée de la case à vider.
+	 * @return Le nouvel état après suppression du jeton.
+	 */
 	IState removeToken(Coordinate c);
 	
+	/**
+	 * Modifie, remplace ou ajoute un jeton à une position donnée.
+	 *
+	 * @param position La coordonnée cible.
+	 * @param team     L'équipe du nouveau jeton.
+	 * @param token    La classe représentant le type de jeton à placer.
+	 * @return Le nouvel état intégrant le changement.
+	 */
 	IState toggleToken(Coordinate position, Team team, Class<?> token);
 }
