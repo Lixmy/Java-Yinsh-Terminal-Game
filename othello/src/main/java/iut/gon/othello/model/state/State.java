@@ -122,9 +122,9 @@ public record State (Map<Coordinate, Token> board, Team turn, List<Set<Coordinat
 		Map<Coordinate, Token> nextBoard = new HashMap<>(this.board);
 
 		for (Coordinate c : lineToRemove) {
-			nextBoard.remove(c);
+			nextBoard.put(c, null);
 		}
-		nextBoard.remove(ringPos);
+		nextBoard.put(ringPos, null);
 
 		List<Set<Coordinate>> nextLines = IState.getPawnsLines(nextBoard);
 
@@ -249,7 +249,7 @@ public record State (Map<Coordinate, Token> board, Team turn, List<Set<Coordinat
         }
 
         Map<Coordinate, Token> nextBoard = new HashMap<>(this.board);
-        nextBoard.remove(c);
+        nextBoard.put(c, null);
 
         List<Set<Coordinate>> nextLines = IState.getPawnsLines(nextBoard);
         return new State(nextBoard, this.turn, nextLines);

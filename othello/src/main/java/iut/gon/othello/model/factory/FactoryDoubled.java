@@ -15,9 +15,10 @@ public class FactoryDoubled implements IFactory{
 
 	@Override
     public IState testState() {
-		/*
-        IState empty = this.emptyState();
+		IState empty = this.emptyState();
         Map<Coordinate, Token> board = new HashMap<>(empty.board());
+        
+        /*
         
         board.put(new CoordinateDoubled(-3, -1, 4), new Ring(Team.BLACK));
         board.put(new CoordinateDoubled(1, 0, -1), new Ring(Team.BLACK));
@@ -43,6 +44,7 @@ public class FactoryDoubled implements IFactory{
         board.put(new CoordinateDoubled(-2, 5, -3), new Pawn(Team.WHITE));
         
         return new State(board, Team.BLACK, new ArrayList<>());
+        
         */
 		
 		return null;
