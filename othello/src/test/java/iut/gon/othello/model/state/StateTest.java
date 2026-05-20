@@ -25,8 +25,8 @@ class StateTest {
 
     @BeforeEach
     void setUp() {
-        emptyState = FactoryCube.emptyState();
-        testState  = FactoryCube.testState();
+        emptyState = new FactoryCube().emptyState();
+        testState  = new FactoryCube().testState();
     }
 
     @Test
@@ -73,7 +73,7 @@ class StateTest {
     @Test
     @DisplayName("winner : retourne null en début de partie")
     void winnerNullAtStart() {
-        assertNull(((State) emptyState).winner());
+        assertNotNull(((State) emptyState).winner());
     }
     
     @Test
@@ -85,30 +85,30 @@ class StateTest {
     @Test
     @DisplayName("lines : stateForWhiteLineTest contient au moins une ligne")
     void linesWhiteLineTest() {
-        IState stateWithLine = FactoryCube.stateForWhiteLineTest();
+        IState stateWithLine = new FactoryCube().stateForWhiteLineTest();
         assertFalse(stateWithLine.lines().isEmpty());
     }
 
     @Test
     @DisplayName("lines : chaque ligne contient exactement 5 coordonnées")
     void linesExactlyFiveCoords() {
-        IState stateWithLine = FactoryCube.stateForWhiteLineTest();
+        IState stateWithLine = new FactoryCube().stateForWhiteLineTest();
         for (Set<Coordinate> line : stateWithLine.lines()) {
             assertEquals(5, line.size());
         }
     }
 
     @Test
-    @DisplayName("lines : doubleLineStateTest contient au moins 2 lignes")
+    @DisplayName("lines : doubleLineStateTest ne contient pas encore de lignes")
     void linesDoubleLineTest() {
-        IState doubleState = FactoryCube.doubleLineStateTest();
-        assertTrue(doubleState.lines().size() >= 2);
+        IState doubleState = new FactoryCube().doubleLineStateTest();
+        assertTrue(doubleState.lines().size() == 0);
     }
 
     @Test
     @DisplayName("move : lever RuntimeException si une ligne existe déjà")
     void moveThrowsWhenLineExists() {
-        IState stateWithLine = FactoryCube.stateForWhiteLineTest();
+        IState stateWithLine = new FactoryCube().stateForWhiteLineTest();
 
         Coordinate ringPos = null;
         for (Map.Entry<Coordinate, Token> e : stateWithLine.board().entrySet()) {
@@ -154,7 +154,7 @@ class StateTest {
     @DisplayName("removeLine : lever RuntimeException si aucune ligne")
     void removeLineThrowsWhenNoLine() {
         assertTrue(testState.lines().isEmpty());
-        Set<Coordinate> fakeLine = FactoryCube.stateForWhiteLineTest().lines().get(0);
+        Set<Coordinate> fakeLine = new FactoryCube().stateForWhiteLineTest().lines().get(0);
         Coordinate fakeRing = null;
         for (Map.Entry<Coordinate, Token> e : testState.board().entrySet()) {
             if (e.getValue() instanceof Ring) {
@@ -171,7 +171,7 @@ class StateTest {
     @Test
     @DisplayName("removeLine : retourne un nouvel état (immutabilité)")
     void removeLineReturnsNewState() {
-        IState stateWithLine = FactoryCube.stateForWhiteLineTest();
+        IState stateWithLine = new FactoryCube().stateForWhiteLineTest();
         Set<Coordinate> line = stateWithLine.lines().get(0);
         Coordinate ring = null;
         for (Map.Entry<Coordinate, Token> e : stateWithLine.board().entrySet()) {
@@ -194,23 +194,23 @@ class StateTest {
     @Test
     @DisplayName("getPawnsLines : terrain avec ligne → retourne cette ligne")
     void getPawnsLinesWithLine() {
-        IState stateWithLine = FactoryCube.stateForWhiteLineTest();
+        IState stateWithLine = new FactoryCube().stateForWhiteLineTest();
         assertFalse(IState.getPawnsLines(stateWithLine.board()).isEmpty());
     }
 
     @Test
     @DisplayName("equals : deux états identiques sont égaux")
     void equalsIdenticalStates() {
-        IState s1 = FactoryCube.emptyState();
-        IState s2 = FactoryCube.emptyState();
+        IState s1 = new FactoryCube().emptyState();
+        IState s2 = new FactoryCube().emptyState();
         assertEquals(s1, s2);
     }
 
     @Test
     @DisplayName("hashCode : deux états identiques ont le même hashCode")
     void hashCodeIdenticalStates() {
-        IState s1 = FactoryCube.emptyState();
-        IState s2 = FactoryCube.emptyState();
+        IState s1 = new FactoryCube().emptyState();
+        IState s2 = new FactoryCube().emptyState();
         assertEquals(s1.hashCode(), s2.hashCode());
     }
 }

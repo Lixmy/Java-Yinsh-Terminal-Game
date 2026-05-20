@@ -12,7 +12,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import iut.gon.hexagonalcoordinates.Coordinate;
-import iut.gon.othello.model.actions.Move;
 import iut.gon.othello.model.factory.FactoryCube;
 import iut.gon.othello.model.state.IState;
 import iut.gon.othello.model.tokens.Ring;
@@ -23,7 +22,7 @@ class ModelTest {
  
     @BeforeEach
     void setUp() {
-        model = new Model(FactoryCube.testState());
+        model = new Model(new FactoryCube().testState());
     }
 
     @Test

@@ -117,6 +117,8 @@ public class FactoryCube implements IFactory {
 		board.put(new CoordinateCube(3,-2, -1), new Ring(Team.WHITE));
 		board.put(new CoordinateCube(4, -2, -2), new Ring(Team.WHITE));
 		
+		board.put(new CoordinateCube(0, 0, 0), new Pawn(Team.BLACK));
+		board.put(new CoordinateCube(-1, 1, 0), new Pawn(Team.BLACK));
 		board.put(new CoordinateCube(0, -1, 1), new Pawn(Team.BLACK));
 		board.put(new CoordinateCube(0, -2, 2), new Pawn(Team.BLACK));
 		board.put(new CoordinateCube(0, -3, 3), new Pawn(Team.BLACK));
@@ -150,23 +152,29 @@ public class FactoryCube implements IFactory {
 		board.put(new CoordinateCube(-3, 3, 0), new Pawn(Team.WHITE));
 		board.put(new CoordinateCube(-2, 5, -3), new Pawn(Team.WHITE));
         
-        return new State(board, Team.WHITE, new ArrayList<>());
+        return new State(board, Team.WHITE, IState.getPawnsLines(board));
     }
 
 	@Override
-    public IState emptyState() {
-        Map<Coordinate, Token> board = new HashMap<>();
-        
-        int radius = 5;
-        for (int q = -radius; q <= radius; q++) {
-            for (int r = Math.max(-radius, -q - radius); r <= Math.min(radius, -q + radius); r++) {
-                int s = -q - r;
-                board.put(new CoordinateCube(q, r, s), null);
-            }
-        }
-        
-        return new State(board, Team.BLACK, new ArrayList<>());
-    }
+	public IState emptyState() {
+	    Map<Coordinate, Token> board = new HashMap<>();
+
+	    int radius = 5;
+	    for (int q = -radius; q <= radius; q++) {
+	        for (int r = Math.max(-radius, -q - radius); r <= Math.min(radius, -q + radius); r++) {
+	            int s = -q - r;
+	            int absCount = 0;
+	            if (Math.abs(q) == radius) absCount++;
+	            if (Math.abs(r) == radius) absCount++;
+	            if (Math.abs(s) == radius) absCount++;
+	            if (absCount >= 2) continue;
+
+	            board.put(new CoordinateCube(q, r, s), null);
+	        }
+	    }
+
+	    return new State(board, Team.BLACK, new ArrayList<>());
+	}
 
 	@Override
     public IState doubleLineStateTest() {

@@ -116,6 +116,8 @@ public class FactoryDoubled implements IFactory{
 		board.put(new CoordinateDoubled(5, 17), new Ring(Team.WHITE));
 		board.put(new CoordinateDoubled(6, 12), new Ring(Team.WHITE));
 		
+		board.put(new CoordinateDoubled(5, 9), new Pawn(Team.BLACK));
+		board.put(new CoordinateDoubled(6, 8), new Pawn(Team.BLACK));
 		board.put(new CoordinateDoubled(4, 8), new Pawn(Team.BLACK));
 		board.put(new CoordinateDoubled(3, 7), new Pawn(Team.BLACK));
 		board.put(new CoordinateDoubled(2, 6), new Pawn(Team.BLACK));
@@ -148,7 +150,7 @@ public class FactoryDoubled implements IFactory{
 		board.put(new CoordinateDoubled(8, 6), new Pawn(Team.WHITE));
 		board.put(new CoordinateDoubled(10, 10), new Pawn(Team.WHITE));
 		
-		return new State(board, Team.WHITE, new ArrayList<>());
+		return new State(board, Team.WHITE, IState.getPawnsLines(board));
 	}
 
 	@Override
@@ -158,7 +160,12 @@ public class FactoryDoubled implements IFactory{
         int radius = 5;
         for (int q = -radius; q <= radius; q++) {
             for (int r = Math.max(-radius, -q - radius); r <= Math.min(radius, -q + radius); r++) {
-                
+            	int s = -q - r;
+            	int absCount = 0;
+	            if (Math.abs(q) == radius) absCount++;
+	            if (Math.abs(r) == radius) absCount++;
+	            if (Math.abs(s) == radius) absCount++;
+	            if (absCount >= 2) continue;
                 int col = 2 * q + r + 9;
                 int row = r + 5;
                 

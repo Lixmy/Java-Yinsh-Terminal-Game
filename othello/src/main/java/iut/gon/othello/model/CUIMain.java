@@ -108,10 +108,10 @@ public class CUIMain {
 	}
 
 	private static IState initialiserPartie(IFactory factory) {
+		
 		IState state = factory.emptyState();
 		List<Coordinate> allCoords = new ArrayList<>(state.board().keySet());
 
-		// Fisher-Yates shuffle
 		Random random = new Random();
 		for (int i = allCoords.size() - 1; i > 0; i--) {
 			int j = random.nextInt(i + 1);
@@ -182,6 +182,7 @@ public class CUIMain {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		IState etatInitial;
+		
 		
 		System.out.println("=== OTHELLO ===");
 		System.out.println("Choissisez l'affichage : 1 - FLAT (Coordonées 3D)  2 - POINTY (Coordonnées 4D");
