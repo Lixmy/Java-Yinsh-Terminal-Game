@@ -31,7 +31,7 @@ public class FactoryCube implements IFactory {
         board.put(new CoordinateCube(3, -2, -1), new Ring(Team.WHITE));
         board.put(new CoordinateCube(4, -2, -2), new Ring(Team.WHITE));
         board.put(new CoordinateCube(1, 1, -2), new Ring(Team.WHITE));
-
+        
         board.put(new CoordinateCube(0, -2, 2), new Pawn(Team.BLACK));
         board.put(new CoordinateCube(2, -2, 0), new Pawn(Team.BLACK));
         board.put(new CoordinateCube(-1, -1, 2), new Pawn(Team.BLACK));
