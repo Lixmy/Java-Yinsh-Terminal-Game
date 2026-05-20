@@ -28,6 +28,8 @@ public interface IState {
 	
 	Team turn();
 	
+	Team winner();
+	
 	static List<Set<Coordinate>> getPawnsLines(Map<Coordinate, Token> board) {
         List<Set<Coordinate>> allLines = new java.util.ArrayList<>();
         
@@ -90,4 +92,8 @@ public interface IState {
         
         return allLines;
     }
+	
+	IState removeToken(Coordinate c);
+	
+	IState toggleToken(Coordinate position, Team team, Class<?> token);
 }

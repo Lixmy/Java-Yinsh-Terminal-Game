@@ -1,14 +1,4 @@
 package iut.gon.othello.model.state;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import iut.gon.hexagonalcoordinates.Coordinate;
-import iut.gon.hexagonalcoordinates.CoordinateCube;
-
-import org.junit.jupiter.api.DisplayName;
-import static org.junit.jupiter.api.Assertions.*;
- 
-import java.util.*;
  
 /**
  * Tests unitaires pour State (record).

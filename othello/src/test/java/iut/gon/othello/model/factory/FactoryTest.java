@@ -1,13 +1,4 @@
 package iut.gon.othello.model.factory;
-
-import org.junit.jupiter.api.Test;
-
-import iut.gon.hexagonalcoordinates.CoordinateDoubled;
-
-import org.junit.jupiter.api.DisplayName;
-import static org.junit.jupiter.api.Assertions.*;
- 
-import java.util.Objects;
  
 /**
  * Tests unitaires pour FactoryCube et FactoryDoubled.

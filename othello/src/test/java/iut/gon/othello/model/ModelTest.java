@@ -1,16 +1,4 @@
 package iut.gon.othello.model;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import iut.gon.hexagonalcoordinates.Coordinate;
-
-import org.junit.jupiter.api.DisplayName;
-import static org.junit.jupiter.api.Assertions.*;
- 
-import java.util.Map;
-import java.util.NoSuchElementException;
- 
 /**
  * Tests unitaires pour Model.
  * Chemin : src/test/java/model/ModelTest.java

@@ -2,8 +2,6 @@ package iut.gon.othello.model;
 
 import org.junit.jupiter.api.Test;
 
-import iut.gon.othello.model.Team;
-
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.*;
 

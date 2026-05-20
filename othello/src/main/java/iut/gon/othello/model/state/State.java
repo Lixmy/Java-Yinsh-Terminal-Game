@@ -92,21 +92,7 @@ public record State (Map<Coordinate, Token> board, Team turn, List<Set<Coordinat
 
 		return new State(nextBoard, nextTurn, nextLines);
 	}
-
-	public boolean isInField(Coordinate c) {
-		return this.board.containsKey(c);
-	}
 	
-	public Team winner() {
-		Map<Team, List<Coordinate>> allRings = this.rings();
-		for (Map.Entry<Team, List<Coordinate>> entry : allRings.entrySet()) {
-			if (entry.getValue().size() <= 2) { 
-				return entry.getKey();
-			}
-		}
-		return null;
-	}
-
 	@Override
 	public IState removeLine(RemoveLine rm) {
 		Set<Coordinate> lineToRemove = rm.getLine();
@@ -149,7 +135,7 @@ public record State (Map<Coordinate, Token> board, Team turn, List<Set<Coordinat
 
 		return new State(nextBoard, nextTurn, nextLines);
 	}
-
+	
 	@Override
 	public Set<Coordinate> availableMoves(Coordinate from) {
 		Set<Coordinate> moves = new HashSet<>();
@@ -208,7 +194,12 @@ public record State (Map<Coordinate, Token> board, Team turn, List<Set<Coordinat
 		
 		return moves;
 	}
-
+	
+	@Override
+	public Map<Coordinate, Token> board() {
+		return this.board;
+	}
+	
 	@Override
 	public Map<Team, List<Coordinate>> rings() {
 		Map<Team, List<Coordinate>> allRings = new HashMap<>();
@@ -228,5 +219,73 @@ public record State (Map<Coordinate, Token> board, Team turn, List<Set<Coordinat
 		}
 		
 		return allRings;
+	}
+	
+	@Override
+	public List<Set<Coordinate>> lines() {
+		return this.lines;
+	}
+	
+	@Override
+	public Team turn() {
+		return this.turn;
+	}
+	
+	@Override
+	public Team winner() {
+		Map<Team, List<Coordinate>> allRings = this.rings();
+		for (Map.Entry<Team, List<Coordinate>> entry : allRings.entrySet()) {
+			if (entry.getValue().size() <= 2) { 
+				return entry.getKey();
+			}
+		}
+		return null;
+	}
+	
+	@Override
+    public IState removeToken(Coordinate c) {
+        if (!this.isInField(c)) {
+            throw new IndexOutOfBoundsException("La coordonnée est hors du terrain.");
+        }
+
+        Map<Coordinate, Token> nextBoard = new HashMap<>(this.board);
+        nextBoard.remove(c);
+
+        List<Set<Coordinate>> nextLines = IState.getPawnsLines(nextBoard);
+        return new State(nextBoard, this.turn, nextLines);
+    }
+	
+	@Override
+    public IState toggleToken(Coordinate position, Team team, Class<?> tokenClass) {
+        if (!this.isInField(position)) {
+            throw new IndexOutOfBoundsException("La coordonnée est hors du terrain.");
+        }
+
+        Map<Coordinate, Token> nextBoard = new HashMap<>(this.board);
+        Token currentToken = nextBoard.get(position);
+
+        try {
+            java.lang.reflect.Constructor<?> constructor = tokenClass.getConstructors()[0];
+            Token newToken = (Token) constructor.newInstance(team);
+
+            // Si la case contient déjà exactement le même type de pion/anneau de la même équipe, on l'enlève
+            if (currentToken != null && currentToken.getClass() == tokenClass && currentToken.getTeam() == team) {
+                nextBoard.remove(position);
+            } 
+            // Sinon, on remplace/place le nouveau jeton
+            else {
+                nextBoard.put(position, newToken);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de la création dynamique du Token", e);
+        }
+
+        List<Set<Coordinate>> nextLines = IState.getPawnsLines(nextBoard);
+        return new State(nextBoard, this.turn, nextLines);
+    }
+
+	public boolean isInField(Coordinate c) {
+		return this.board.containsKey(c);
 	}
 }
