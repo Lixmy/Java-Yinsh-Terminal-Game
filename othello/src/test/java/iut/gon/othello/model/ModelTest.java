@@ -1,13 +1,21 @@
 package iut.gon.othello.model;
-/**
- * Tests unitaires pour Model.
- * Chemin : src/test/java/model/ModelTest.java
- *
- * Model stocke l'état courant et expose move/removeLine
- * qui modifient l'état interne (contrairement à IState qui est immutable).
- */
 
-/*
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+
+import java.util.Map;
+import java.util.NoSuchElementException;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import iut.gon.hexagonalcoordinates.Coordinate;
+import iut.gon.othello.model.actions.Move;
+import iut.gon.othello.model.factory.FactoryCube;
+import iut.gon.othello.model.state.IState;
+import iut.gon.othello.model.tokens.Ring;
 
 class ModelTest {
  
@@ -17,66 +25,51 @@ class ModelTest {
     void setUp() {
         model = new Model(FactoryCube.testState());
     }
- 
-    // -------------------------------------------------------------------------
-    // État initial
-    // -------------------------------------------------------------------------
- 
+
     @Test
     @DisplayName("currentState : non null après construction")
     void currentStateNotNull() {
-        assertNotNull(model.currentState());
+        assertNotNull(model.getCurrentState());
     }
  
     @Test
     @DisplayName("currentState : board non null")
     void currentStateBoardNotNull() {
-        assertNotNull(model.currentState().board());
+        assertNotNull(model.getCurrentState().board());
     }
- 
-    // -------------------------------------------------------------------------
-    // move (côté Model : void, modifie l'état interne)
-    // -------------------------------------------------------------------------
- 
+
     @Test
     @DisplayName("move : l'état interne est mis à jour après un move valide")
     void moveUpdatesInternalState() {
-        IState before = model.currentState();
+        IState before = model.getCurrentState();
         Coordinate ringPos = findFirstRingOf(before, before.turn());
         Coordinate target  = before.availableMoves(ringPos).iterator().next();
  
-        model.move(new Move(ringPos, target));
+        model.moveRing(ringPos, target);
  
-        assertNotSame(before, model.currentState());
+        assertNotSame(before, model.getCurrentState());
     }
  
     @Test
     @DisplayName("move : le tour change après un déplacement (sans ligne)")
     void moveSwitchesTurn() {
-        IState before = model.currentState();
+        IState before = model.getCurrentState();
         Team teamBefore = before.turn();
         Coordinate ringPos = findFirstRingOf(before, teamBefore);
         Coordinate target  = before.availableMoves(ringPos).iterator().next();
  
-        model.move(new Move(ringPos, target));
+        model.moveRing(ringPos, target);
  
-        // Si aucune ligne créée, le tour a changé
-        if (model.currentState().lines().isEmpty()) {
-            assertNotEquals(teamBefore, model.currentState().turn());
+        if (model.getCurrentState().lines().isEmpty()) {
+            assertNotEquals(teamBefore, model.getCurrentState().turn());
         }
     }
  
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
- 
     private Coordinate findFirstRingOf(IState state, Team team) {
         return state.board().entrySet().stream()
-                .filter(e -> e.getValue() instanceof Ring r && r.team() == team)
+                .filter(e -> e.getValue() instanceof Ring r && r.getTeam() == team)
                 .map(Map.Entry::getKey)
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("Aucun anneau de " + team));
     }
 }
-
-*/
