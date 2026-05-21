@@ -18,6 +18,8 @@ It is possible that a move might create a black line and a white line; in this c
 
 More details can be found online (https://en.wikipedia.org/wiki/YINSH)
 
+the image.png file is a picture of the final Git activity tree hosted on the University's Redmine.
+
 /// LAUNCHING THE GAME ///
 
 - Open the project with Eclipse
