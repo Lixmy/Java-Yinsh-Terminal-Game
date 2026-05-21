@@ -1,3 +1,5 @@
+# Game-Engine
+
 This was the first half of a University project to recreate a variant of the board game known as Yinsh using Java. This project was done in groups of 4 people utilizing Git to complete the project in under 2 days.
 It had to contain:
 - A seperate imported project called "hexagonalcoordinates" that manages all the calculations in relation to the players movements.
